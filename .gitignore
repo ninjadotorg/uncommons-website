@@ -1,0 +1,12 @@
+node_modules
+yarn-error.log
+package-lock.json
+dist
+.DS_Store
+.idea
+.env.js
+.env.*.js
+testing
+.idea/
+deployment
+deployment.tar

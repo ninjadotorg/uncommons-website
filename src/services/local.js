@@ -1,5 +1,6 @@
 import storelib from 'store';
 import CryptoJS from 'crypto-js';
+import Log from '@/services/log';
 
 const STORE_KEY = 'uncommons_3dbedb125518bf5f77fce8230d9d7383';
 
@@ -13,7 +14,7 @@ function getStore() {
     const jsonLocalStore = JSON.parse(localStore);
     return jsonLocalStore;
   } catch (e) {
-    return e;
+    return { isEmpty: true, e };
   }
 }
 
@@ -22,8 +23,8 @@ function setStore(data) {
   if (Object.prototype.hasOwnProperty.call(store, 'isEmpty')) {
     delete store.isEmpty;
   }
+  Log.Info('localstore - set store', store);
   const jsonStore = JSON.stringify(store);
-  console.log(jsonStore);
   const encrypted = CryptoJS.AES.encrypt(jsonStore, '8aaac3acc61f4c60fe8c073e7e233a3d');
   storelib.set(STORE_KEY, encrypted.toString());
 }
@@ -44,7 +45,6 @@ class LocalStore {
 
   static set(key, data) {
     LocalStore.fetchStore();
-    console.log(LocalStore.store);
     LocalStore.store[key] = data;
     setStore(LocalStore.store);
     return true;

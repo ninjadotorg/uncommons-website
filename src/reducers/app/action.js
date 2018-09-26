@@ -1,2 +1,2 @@
-export const setNotFound = () => ({ type: 'TEST' });
-export const clearNotFound = () => ({ type: 'TEST' });
+export const setNotFound = () => ({ type: 'APP_NOTFOUND_SET' });
+export const clearNotFound = () => ({ type: 'APP_NOTFOUND_CLEAR' });

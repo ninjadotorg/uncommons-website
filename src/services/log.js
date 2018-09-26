@@ -1,11 +1,15 @@
 export function InfoLog(...argu) {
-  // eslint-disable-next-line
-  console.log(argu);
+  if (process.env.DEBUG) {
+    // eslint-disable-next-line
+    console.log(...argu);
+  }
 }
 
 export function ErrorLog(...argu) {
-  // eslint-disable-next-line
-  console.error(argu);
+  if (process.env.DEBUG) {
+    // eslint-disable-next-line
+    console.error(...argu);
+  }
 }
 
 const Log = {

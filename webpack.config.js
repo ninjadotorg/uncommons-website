@@ -148,6 +148,13 @@ module.exports = function webpackConfig(env, argv = {}) {
         modules: [appPath('node_modules')],
       },
       plugins: [
+        new webpack.DefinePlugin({
+          'process.env': JSON.stringify({
+            isProduction,
+            NODE_ENV: argv.mode,
+            DEBUG: !isProduction,
+          }),
+        }),
         new PrepackWebpackPlugin({
           test: /^(?!.*\.worker).*\.jsx?$/i,
         }),

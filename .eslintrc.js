@@ -15,6 +15,7 @@ module.exports = {
     "import/resolver": "webpack",
   },
   "globals": {
-    "web3": true
+    "web3": true,
+    "DEBUG": true
   }
 };

@@ -1,11 +1,7 @@
 import Log from '@/services/log';
 
-const DEBUG = true;
-
 export default (state = {}, action) => {
-  if (DEBUG) {
-    Log.Info(action);
-  }
+  Log.Info('Redux action', action);
   switch (action) {
     case '': {
       document.title = 'Uncommons blockchain';

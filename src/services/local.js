@@ -1,23 +1,75 @@
+import storelib from 'store';
+import CryptoJS from 'crypto-js';
+
+const STORE_KEY = 'uncommons_3dbedb125518bf5f77fce8230d9d7383';
+
+function getStore() {
+  const data = storelib.get(STORE_KEY);
+  if (!data) {
+    return { isEmpty: true };
+  }
+  try {
+    const localStore = CryptoJS.AES.decrypt(data, '8aaac3acc61f4c60fe8c073e7e233a3d').toString(CryptoJS.enc.Utf8);
+    const jsonLocalStore = JSON.parse(localStore);
+    return jsonLocalStore;
+  } catch (e) {
+    return e;
+  }
+}
+
+function setStore(data) {
+  const store = data;
+  if (Object.prototype.hasOwnProperty.call(store, 'isEmpty')) {
+    delete store.isEmpty;
+  }
+  const jsonStore = JSON.stringify(store);
+  console.log(jsonStore);
+  const encrypted = CryptoJS.AES.encrypt(jsonStore, '8aaac3acc61f4c60fe8c073e7e233a3d');
+  storelib.set(STORE_KEY, encrypted.toString());
+}
+
 class LocalStore {
-  static save(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
+  static store = getStore();
+
+  constructor() {
+    if (LocalStore.store.isEmpty) {
+      LocalStore.store = {};
+      setStore(LocalStore.store);
+    }
+  }
+
+  static fetchStore() {
+    LocalStore.store = getStore();
+  }
+
+  static set(key, data) {
+    LocalStore.fetchStore();
+    console.log(LocalStore.store);
+    LocalStore.store[key] = data;
+    setStore(LocalStore.store);
     return true;
   }
 
+  static save = LocalStore.set;
+
   static get(key) {
-    const data = localStorage.getItem(key);
-    if (data) {
-      if (data === 'undefined') {
-        LocalStore.remove(key);
-        return false;
-      }
-      return JSON.parse(data);
+    LocalStore.fetchStore();
+    if (LocalStore.store.isEmpty) {
+      return undefined;
     }
-    return false;
+    const data = LocalStore.store[key];
+    if (!data) {
+      return undefined;
+    }
+    return data;
   }
 
   static remove(key) {
-    localStorage.removeItem(key);
+    LocalStore.fetchStore();
+    if (Object.prototype.hasOwnProperty.call(LocalStore.store, key)) {
+      delete LocalStore.store[key];
+    }
+    setStore(LocalStore.store);
     return true;
   }
 }

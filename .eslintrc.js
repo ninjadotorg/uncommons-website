@@ -9,7 +9,8 @@ module.exports = {
     "react/forbid-prop-types": "off",
     // will turn on later
     "jsx-a11y/click-events-have-key-events": "off",
-    "jsx-a11y/no-static-element-interactions": "off"
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/label-has-for": "off"
   },
   "settings": {
     "import/resolver": "webpack",

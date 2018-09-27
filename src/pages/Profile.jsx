@@ -32,4 +32,6 @@ class Profile extends React.Component {
   }
 }
 
-export default connect(state => ({ auth: state.auth }), ({ logout }))(Profile);
+export default connect(
+  state => ({ auth: state.auth }), ({ logout }),
+)(Profile);

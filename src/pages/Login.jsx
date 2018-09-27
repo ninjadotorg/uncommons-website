@@ -9,7 +9,7 @@ import deepOrange from '@material-ui/core/colors/deepOrange';
 import ethUtil from 'ethereumjs-util';
 import sigUtil from 'eth-sig-util';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import LoginDialog from './LoginDialog';
+import LoginDialog from '@/components/LoginDialog';
 
 const styles = theme => ({
   buttonMetamask: {
@@ -39,6 +39,7 @@ class Login extends React.Component {
       dialogTitle: '',
       dialogContent: '',
       dialogSuccess: false,
+      needReload: false,
     };
     document.title = 'Auth - Uncommons blockchain';
     if (web3 && web3.currentProvider.isMetaMask) {
@@ -65,14 +66,14 @@ class Login extends React.Component {
     if (!isInstalledMetamask) {
       // not installed Metamask
       return this.setState({
-        isSigning: false, openDialog: true, dialogTitle: 'Error', dialogContent: 'Install Metamask first',
+        isSigning: false, openDialog: true, dialogTitle: 'Error', dialogContent: 'Install Metamask first', needReload: true,
       });
     }
 
     if (!from) {
       // not unlocked account
       return this.setState({
-        isSigning: false, openDialog: true, dialogTitle: 'Error', dialogContent: 'Unlock your account at Metamask',
+        isSigning: false, openDialog: true, dialogTitle: 'Error', dialogContent: 'Unlock your account at Metamask and click login again.', needReload: true,
       });
     }
 
@@ -86,12 +87,12 @@ class Login extends React.Component {
       // handle error
       if (err) {
         return this.setState({
-          isSigning: false, openDialog: true, dialogTitle: 'Error', dialogContent: err,
+          isSigning: false, openDialog: true, dialogTitle: 'Error', dialogContent: err.toString(), needReload: false,
         });
       }
       if (result.error) {
         return this.setState({
-          isSigning: false, openDialog: true, dialogTitle: 'Error', dialogContent: result.error,
+          isSigning: false, openDialog: true, dialogTitle: 'Error', dialogContent: result.error.message.toString(), needReload: false,
         });
       }
 
@@ -101,11 +102,11 @@ class Login extends React.Component {
 
       if (recovered === from) {
         return this.setState({
-          isSigning: false, openDialog: true, dialogTitle: 'Auth', dialogContent: 'Success!', dialogSuccess: true,
+          isSigning: false, openDialog: true, dialogTitle: 'Auth', dialogContent: 'Success!', dialogSuccess: true, needReload: false,
         });
       }
       return this.setState({
-        isSigning: false, openDialog: true, dialogTitle: 'Error', dialogContent: `SigUtil Failed to verify signer when comparing ${recovered.result} to ${from}`,
+        isSigning: false, openDialog: true, dialogTitle: 'Error', dialogContent: `SigUtil Failed to verify signer when comparing ${recovered.result} to ${from}`, needReload: false,
       });
     });
     return true;
@@ -113,14 +114,19 @@ class Login extends React.Component {
 
   closeDialog = () => {
     const { login: propsLogin } = this.props;
+    const { dialogSuccess, needReload } = this.state;
     this.setState({ openDialog: false });
-    propsLogin();
+    if (dialogSuccess) {
+      propsLogin();
+    } else if (needReload) {
+      window.location.reload();
+    }
   }
 
   render() {
     const { classes, auth } = this.props;
     const {
-      isSigning, openDialog, dialogTitle, dialogContent, dialogSuccess,
+      isSigning, openDialog, dialogTitle, dialogContent,
     } = this.state;
 
     return (
@@ -130,7 +136,6 @@ class Login extends React.Component {
           title={dialogTitle}
           content={dialogContent}
           onClose={this.closeDialog}
-          success={dialogSuccess}
         />
         <div className="login-page">
           <Grid container spacing={24}>

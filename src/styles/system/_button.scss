@@ -2,7 +2,7 @@
   background-color: $buttonBg !important;
   color: $white !important;
   position: relative;
-  margin-bottom: 4px;
+  margin-bottom: 4px !important;
   &:before {
     background-color: $buttonBg !important;
     content: "";
@@ -29,10 +29,11 @@
     z-index: 2;
   }
   &:active {
-    margin-top: 7px;
-    margin-bottom: 1px;
+    margin-top: 3px;
+    margin-bottom: 1px !important;
     &:after {
       height: calc(100% + 1px);
     }
   }
 }
+

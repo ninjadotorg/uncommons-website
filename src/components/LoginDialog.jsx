@@ -23,14 +23,13 @@ class LoginDialog extends React.Component {
   }
 
   handleClose = () => {
-    const { onClose, success } = this.props;
+    const { onClose } = this.props;
     onClose();
-    if (!success) window.location.reload();
   }
 
   render() {
     const {
-      title, content, success, ...other
+      title, content, ...other
     } = this.props;
     return (
       <Dialog aria-labelledby="login-dialog-title" {...other}>

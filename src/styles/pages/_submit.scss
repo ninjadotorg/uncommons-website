@@ -1,0 +1,31 @@
+.submit-page {
+  position: relative;
+  padding-top: 200px;
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 560px;
+    background-color: $heroBg;
+    background-image: url('../assets/submit-01.png');
+    background-repeat: no-repeat;
+    background-position: right top;
+    content: '';
+    display: block;
+    z-index: 0;
+  }
+  .submit-page-header {
+    font-size: 48px;
+    color: $white;
+    margin: 0 auto;
+    max-width: 930px;
+  }
+  .submit-page-content {
+    margin: 20px auto 80px;
+    max-width: 930px;
+    background-color: $white;
+    padding: 29px 76px 29px 29px;
+    z-index: 1;
+  }
+}

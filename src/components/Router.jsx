@@ -11,6 +11,7 @@ const FAQs = createDynamicImport(() => import('@/pages/FAQs'), Loading);
 const About = createDynamicImport(() => import('@/pages/About'), Loading);
 const Profile = createDynamicImport(() => import('@/pages/Profile'), Loading);
 const Login = createDynamicImport(() => import('@/pages/Login'), Loading);
+const Submit = createDynamicImport(() => import('@/pages/Submit'), Loading);
 
 const routers = [
   { path: '/', exact: true, component: Home },
@@ -19,6 +20,7 @@ const routers = [
   { path: '/faqs', component: FAQs },
   { path: '/about', component: About },
   { path: '/profile/:address', component: Profile },
+  { path: '/submit', component: Submit },
 ];
 
 class Router extends React.Component {

@@ -7,6 +7,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import { push } from 'connected-react-router';
+import cn from '@sindresorhus/class-names';
 import styles from './Header-styles';
 import HeaderDialog from './LoginDialog';
 
@@ -75,7 +76,7 @@ class Header extends React.Component {
                 />
               </div>
             </div>
-            <div className="header-menu-bar">
+            <div className={cn('header-menu-bar', classes.menuBar)}>
               <ul>
                 <li>
                   <Link to="/discover">Discover</Link>

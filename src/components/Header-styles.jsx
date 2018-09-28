@@ -27,6 +27,9 @@ export default theme => ({
       marginLeft: theme.spacing.unit,
       width: 'auto',
     },
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
   },
   searchIcon: {
     width: theme.spacing.unit * 9,
@@ -57,5 +60,8 @@ export default theme => ({
   },
   menuBar: {
     float: 'right',
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
   },
 });

@@ -778,6 +778,10 @@
     "@babel/runtime" "7.0.0"
     recompose "^0.29.0"
 
+"@sindresorhus/class-names@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@sindresorhus/class-names/-/class-names-0.1.0.tgz#c0b0230ab5ba95f3c09e6609763d72b6445c07f8"
+
 "@types/jss@^9.5.3":
   version "9.5.6"
   resolved "https://registry.yarnpkg.com/@types/jss/-/jss-9.5.6.tgz#96e1d246ddfbccc4867494077c714773cf29acde"

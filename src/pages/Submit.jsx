@@ -28,9 +28,9 @@ class Submit extends React.Component {
                   <fieldset className="uk-fieldset">
                     <legend className="uk-legend">1. ABOUT YOUR DAPP</legend>
                     <div className="uk-margin">
-                      <label htmlFor="name">
+                      <label htmlFor="dapp-name">
                         <span>Name of Dapp</span>
-                        <input className="uk-input" type="text" placeholder="Prediction *" id="name" />
+                        <input className="uk-input" type="text" placeholder="Prediction *" id="dapp-name" />
                       </label>
                     </div>
                     <div className="uk-margin">

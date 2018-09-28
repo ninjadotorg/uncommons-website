@@ -2,7 +2,7 @@ const path = require('path');
 
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -70,16 +70,16 @@ module.exports = function webpackConfig(env, argv = {}) {
   const production = {
     optimization: {
       minimize: true,
-      minimizer: [
-        new UglifyJsPlugin({
-          sourceMap: true,
-          uglifyOptions: {
-            compress: {
-              drop_console: true,
-            },
-          },
-        }),
-      ],
+      // minimizer: [
+      //   new UglifyJsPlugin({
+      //     sourceMap: true,
+      //     uglifyOptions: {
+      //       compress: {
+      //         drop_console: true,
+      //       },
+      //     },
+      //   }),
+      // ],
       splitChunks: {
         chunks: 'all',
       },

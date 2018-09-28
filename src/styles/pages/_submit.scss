@@ -28,4 +28,41 @@
     padding: 29px 76px 29px 29px;
     z-index: 1;
   }
+  legend {
+    color: $heading;
+    font-size: 22px;
+    margin-bottom: 27px;
+    &::first-letter {
+      color: $blue;
+    }
+  }
+  .uk-legend, label span:first-of-type {
+    text-transform: uppercase;
+  }
+  label span {
+    display: block;
+    font-size: 14px;
+  }
+  label span:last-of-type {
+    margin-bottom: 13px;
+  }
+  label .sub {
+    opacity: 0.5;
+  }
+  label .uk-checkbox {
+    margin-right: 14px;
+  }
+  .uk-input {
+    height: 54px;
+    padding: 0 19px;
+  }
+  textarea {
+    padding: 19px;;
+  }
+  .policy-block {
+    margin-top: 75px;
+  }
+  .submit-button-block {
+    margin-bottom: 30px;
+  }
 }

@@ -5,6 +5,9 @@
 body {
   background-color: $gray50;
   min-height: 100vh;
+  font-family: 'PT Sans', sans-serif;
+  overflow-y: scroll;
+  color: $body;
 }
 
 a {

@@ -1,11 +1,78 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
+import ethUtil from 'ethereumjs-util';
+import sigUtil from 'eth-sig-util';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 class Submit extends React.Component {
+  static propTypes = {
+    auth: PropTypes.object.isRequired,
+  }
+
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false,
+    };
+    document.title = 'Submit proposal - Uncommons blockchain';
+  }
+
+
+  submit = () => {
+    const { auth } = this.props;
+    const from = auth.address;
+
+    const data = {
+      name: 'test',
+      description: 'test',
+    };
+
+    const msg = ethUtil.bufferToHex(Buffer.from(`Sign your proposal\n\r${JSON.stringify(data)}`, 'utf8'));
+
+    web3.currentProvider.sendAsync({
+      method: 'personal_sign',
+      params: [msg, from],
+      from,
+    }, (err, result) => {
+      // handle error
+      if (err) {
+        return this.setState({
+          isLoading: false, openDialog: true, dialogTitle: 'Error', dialogContent: err.toString(), needReload: false,
+        });
+      }
+      if (result.error) {
+        return this.setState({
+          isLoading: false, openDialog: true, dialogTitle: 'Error', dialogContent: result.error.message.toString(), needReload: false,
+        });
+      }
+
+      const msgParams = { data: msg };
+      msgParams.sig = result.result;
+      const recovered = sigUtil.recoverPersonalSignature(msgParams);
+
+      if (recovered === from) {
+        axios({
+          uri: 'http://localhost:3000/api/Proposals',
+          data: {
+            ...data,
+            sign: msgParams.sig,
+          },
+          method: 'post',
+        });
+
+        return this.setState({
+          isLoading: false, openDialog: true, dialogTitle: 'Auth', dialogContent: 'Success!', dialogSuccess: true, needReload: false,
+        });
+      }
+      return this.setState({
+        isLoading: false, openDialog: true, dialogTitle: 'Error', dialogContent: `SigUtil Failed to verify signer when comparing ${recovered.result} to ${from}`, needReload: false,
+      });
+    });
+    return true;
   }
 
   render() {
@@ -126,4 +193,8 @@ class Submit extends React.Component {
   }
 }
 
-export default Submit;
+const styles = () => { };
+
+export default connect(state => ({
+  auth: state.auth,
+}), null)(withStyles(styles)(Submit));

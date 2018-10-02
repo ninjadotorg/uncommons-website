@@ -1,3 +1,7 @@
 .uk-input:hover, .uk-textarea:hover, .uk-input:focus, .uk-textarea:focus {
   border-color: $blue;
 }
+.uk-textarea {
+  resize: vertical !important;
+  min-height: 100px;
+}

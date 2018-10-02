@@ -18,7 +18,6 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: deepOrange[500],
     },
-
   },
 });
 

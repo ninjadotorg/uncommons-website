@@ -1,24 +1,57 @@
 import { ACTIONS } from './action';
 import local from '@/services/local';
 
+
+const auth = {
+  info: () => ({
+    isLogged: local.get('auth_logged') || false,
+    address: local.get('auth_address') || '',
+    token: local.get('auth_token') || '',
+  }),
+  login: (address, token = '') => {
+    local.save('auth_logged', true);
+    local.save('auth_address', address);
+    local.save('auth_token', token);
+  },
+  logout: () => {
+    local.save('auth_logged', false);
+    local.save('auth_address', '');
+    local.save('auth_token', '');
+  },
+  setAddress: (address) => {
+    local.save('auth_address', address);
+  },
+};
+
 export default (state = {
-  isLogged: local.get('auth_logged') || false,
-  address: local.get('auth_address') || '',
-  token: local.get('auth_token') || '',
+  ...auth.info(),
+  isLogging: false,
 }, action) => {
   switch (action.type) {
     case ACTIONS.LOGIN: {
-      local.save('auth_logged', true);
+      auth.login(state.address, state.token);
       return {
         ...state,
         isLogged: true,
       };
     }
 
+    case ACTIONS.LOGGING_IN: {
+      return {
+        ...state,
+        isLogging: true,
+      };
+    }
+
+    case ACTIONS.LOGGED_IN: {
+      return {
+        ...state,
+        isLogging: false,
+      };
+    }
+
     case ACTIONS.LOGOUT: {
-      local.save('auth_logged', false);
-      local.save('auth_address', '');
-      local.save('auth_token', '');
+      auth.logout();
       return {
         ...state,
         isLogged: false,
@@ -26,7 +59,7 @@ export default (state = {
     }
 
     case ACTIONS.SAVE_ADDRESS: {
-      local.save('auth_address', action.payload);
+      auth.setAddress(action.payload);
       return {
         ...state,
         address: action.payload,

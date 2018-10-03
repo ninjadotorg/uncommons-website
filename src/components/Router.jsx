@@ -1,4 +1,5 @@
 import React from 'react';
+// import PropTypes from 'prop-types';
 import { createDynamicImport } from '@/services/app';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -44,4 +45,4 @@ class Router extends React.Component {
   }
 }
 
-export default connect(state => ({ auth: state.auth, state }), null)(Router);
+export default connect(state => ({ auth: state.auth, router: state.router }), null)(Router);

@@ -8,7 +8,7 @@ import { fullFlow } from '@/reducers/metamask/action';
 import { withStyles } from '@material-ui/core/styles';
 import deepOrange from '@material-ui/core/colors/deepOrange';
 import ethUtil from 'ethereumjs-util';
-// import sigUtil from 'eth-sig-util';
+import sigUtil from 'eth-sig-util';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
@@ -51,9 +51,40 @@ class Login extends React.Component {
     fullFlowMetamask(true);
     if (metamask.unlocked) {
       const msg = ethUtil.bufferToHex(Buffer.from('Click sign below to authenticate with Uncommons.', 'utf8'));
-      console.log(msg);
+
+      const from = metamask.address;
+
+      metamask.web3.currentProvider.sendAsync({
+        method: 'personal_sign',
+        params: [msg, from],
+        from,
+      }, (err, result) => {
+        authLogged();
+        // handle error
+        if (err) {
+          console.log(err);
+          // TO-DO
+        }
+        if (result.error) {
+          console.log(result.error);
+          // TO-DO
+        }
+
+        const msgParams = { data: msg };
+        msgParams.sig = result.result;
+        const recovered = sigUtil.recoverPersonalSignature(msgParams);
+
+        if (metamask.web3.utils.toChecksumAddress(recovered) === from) {
+          // TO-DO
+          authLogin(from, '');
+        }
+        // TO-DO
+      });
+      return true;
+    } else { // eslint-disable-line
+      authLogged();
     }
-    authLogged();
+    return true;
   }
 
   render() {

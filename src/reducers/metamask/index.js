@@ -4,6 +4,7 @@ export default (state = {
   installed: false,
   detecting: false,
   unlocked: false,
+  address: '',
   web3: {},
 }, action) => {
   switch (action.type) {
@@ -24,6 +25,7 @@ export default (state = {
       return {
         ...state,
         unlocked: true,
+        address: action.address,
       };
     }
     default: {

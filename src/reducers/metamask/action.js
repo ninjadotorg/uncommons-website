@@ -66,7 +66,7 @@ const checkAccounts = (web3, callNeedUnlock, dispatch, loop = false) => {
         }
         setTimeout(() => checkAccounts(web3, callNeedUnlock, dispatch, true), 1000);
       } else {
-        dispatch({ type: ACTIONS.METAMASK_UNLOCKED });
+        dispatch({ type: ACTIONS.METAMASK_UNLOCKED, address: r[0] });
       }
     }).catch(() => {
       const { accounts } = web3.eth;
@@ -76,7 +76,7 @@ const checkAccounts = (web3, callNeedUnlock, dispatch, loop = false) => {
         }
         setTimeout(() => checkAccounts(web3, callNeedUnlock, dispatch, true), 1000);
       } else {
-        dispatch({ type: ACTIONS.METAMASK_UNLOCKED });
+        dispatch({ type: ACTIONS.METAMASK_UNLOCKED, address: accounts[0] });
       }
     });
 };

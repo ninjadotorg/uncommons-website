@@ -29,9 +29,11 @@ export default (state = {
 }, action) => {
   switch (action.type) {
     case ACTIONS.LOGIN: {
-      auth.login(state.address, state.token);
+      auth.login(action.address, action.token);
       return {
         ...state,
+        address: action.address,
+        token: action.token,
         isLogged: true,
       };
     }
@@ -55,6 +57,8 @@ export default (state = {
       return {
         ...state,
         isLogged: false,
+        address: '',
+        token: '',
       };
     }
 

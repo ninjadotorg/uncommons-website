@@ -8,7 +8,7 @@ export const ACTIONS = {
   SAVE_ADDRESS: 'AUTH_SAVE_ADDRESS',
 };
 
-export const login = () => ({ type: ACTIONS.LOGIN });
+export const login = (address, token) => ({ type: ACTIONS.LOGIN, address, token });
 export const logging = () => ({ type: ACTIONS.LOGGING_IN });
 export const logged = () => ({ type: ACTIONS.LOGGED_IN });
 

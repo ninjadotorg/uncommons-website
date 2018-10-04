@@ -62,11 +62,11 @@ class Login extends React.Component {
         authLogged();
         // handle error
         if (err) {
-          console.log(err);
+          return;
           // TO-DO
         }
         if (result.error) {
-          console.log(result.error);
+          return;
           // TO-DO
         }
 

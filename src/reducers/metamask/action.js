@@ -10,11 +10,12 @@ export const ACTIONS = {
   METAMASK_UNLOCKED: 'METAMASK_UNLOCKED',
 };
 
-export const needInstall = () => (dispatch) => {
+export const needInstall = buttonDialogFn => (dispatch) => {
   dispatch({
     type: APP_ACTIONS.SHOW_DIALOG,
     payload: NeedInstallMetamask,
     dialogType: NeedInstallMetamask.type,
+    buttonDialogFn,
   });
 };
 
@@ -29,16 +30,17 @@ export const needUnlock = () => (dispatch) => {
 export const detect = () => async (dispatch) => {
   dispatch({ type: ACTIONS.METAMASK_DETECTING });
   let installed = false;
-  if (web3 && web3.currentProvider.isMetaMask) {
-    installed = true;
-  }
   let web3App = null;
-  if (window.ethereum) {
-    web3App = new Web3(window.ethereum);
-    await window.ethereum.enable();
-  } else {
-    web3App = new Web3();
-    web3App.setProvider(web3.currentProvider);
+
+  if (typeof web3 !== 'undefined' && web3.currentProvider.isMetaMask) {
+    installed = true;
+    if (window.ethereum) {
+      web3App = new Web3(window.ethereum);
+      await window.ethereum.enable();
+    } else {
+      web3App = new Web3();
+      web3App.setProvider(web3.currentProvider);
+    }
   }
 
   dispatch({ type: ACTIONS.METAMASK_DETECTED, payload: installed, web3: web3App });
@@ -84,7 +86,7 @@ const checkAccounts = (web3, callNeedUnlock, dispatch, loop = false) => {
 export const fullFlow = (callNeedUnlock = true) => async (dispatch) => {
   const { installed, web3 } = await detect(true)(dispatch);
   if (!installed) {
-    dispatch(needInstall());
+    dispatch(needInstall(() => { window.location.reload(); }));
   } else {
     checkAccounts(web3, callNeedUnlock, dispatch);
   }

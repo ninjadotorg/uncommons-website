@@ -7,7 +7,7 @@ class Download extends React.Component {
   }
 
   render() {
-    return <div />;
+    return <div>Download page</div>;
   }
 }
 

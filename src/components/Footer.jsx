@@ -19,7 +19,7 @@ class Footer extends React.PureComponent {
               <ul>
                 <li className="head-list">Community</li>
                 <li><a href="/"><span>Blog</span></a></li>
-                <li><a href="/"><span>Github</span></a></li>
+                <li><a href="https://github.com/ninjadotorg/uncommons"><span>Github</span></a></li>
                 <li><a href="/"><span>Youtube</span></a></li>
                 <li><a href="/"><span>Reddit</span></a></li>
                 <li><a href="/"><span>Slack</span></a></li>

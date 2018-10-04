@@ -10,7 +10,7 @@ class NeedUnlockMetamask extends React.PureComponent {
   }
 
   render() {
-    return <div />;
+    return <div>Temp content: Need unlock your metamask account</div>;
   }
 }
 

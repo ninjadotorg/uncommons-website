@@ -7,7 +7,7 @@ class FAQs extends React.Component {
   }
 
   render() {
-    return <div />;
+    return <div>FAQs page</div>;
   }
 }
 

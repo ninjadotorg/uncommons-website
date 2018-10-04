@@ -10,7 +10,7 @@ class NeedInstallMetamask extends React.PureComponent {
   }
 
   render() {
-    return <div />;
+    return <div>Temp content: Need install metamask</div>;
   }
 }
 

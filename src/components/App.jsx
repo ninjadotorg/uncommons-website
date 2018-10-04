@@ -6,7 +6,7 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Router from '@/components/Router';
+import Root from '@/components/Root';
 
 import store from '@/store';
 import history from '@/store/history';
@@ -26,7 +26,7 @@ class App extends React.Component {
           <>
             <Header />
             <main className="main">
-              <Router />
+              <Root />
             </main>
             <Footer />
           </>

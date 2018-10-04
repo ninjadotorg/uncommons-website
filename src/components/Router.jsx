@@ -21,7 +21,6 @@ const routers = [
   { path: '/faqs', component: FAQs },
   { path: '/about', component: About },
   { path: '/profile/:address', component: Profile },
-  { path: '/submit', component: Submit },
 ];
 
 class Router extends React.Component {
@@ -40,6 +39,7 @@ class Router extends React.Component {
           ))
         }
         {auth.isLogged ? <Redirect from="/login" to={`/profile/${auth.address}`} exact /> : <Route path="/login" component={Login} />}
+        {!auth.isLogged ? <Redirect from="/submit" to="/login" exact /> : <Route path="/submit" component={Submit} />}
       </Switch>
     );
   }

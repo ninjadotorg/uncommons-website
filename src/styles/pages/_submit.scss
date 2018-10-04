@@ -1,6 +1,12 @@
 .submit-page {
   position: relative;
   padding-top: 200px;
+  @media (max-width: 900px) {
+    padding-top: 100px;
+  }
+  @media (max-width: 700px) {
+    padding-top: 40px;
+  }
   &:before {
     position: absolute;
     top: 0;
@@ -14,12 +20,18 @@
     content: '';
     display: block;
     z-index: 0;
+    @media (max-width: 700px) {
+      background-image: none;
+    }
   }
   .submit-page-header {
     font-size: 48px;
     color: $white;
     margin: 0 auto;
     max-width: 930px;
+    @media (max-width: 700px) {
+      font-size: 30px;
+    }
   }
   .submit-page-content {
     margin: 20px auto 80px;
@@ -27,6 +39,9 @@
     background-color: $white;
     padding: 29px 76px 29px 29px;
     z-index: 1;
+    @media (max-width: 700px) {
+      padding-right: 29px;
+    }
   }
   legend {
     color: $heading;

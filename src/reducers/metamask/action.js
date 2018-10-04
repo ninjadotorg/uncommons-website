@@ -24,6 +24,7 @@ export const needUnlock = () => (dispatch) => {
     type: APP_ACTIONS.SHOW_DIALOG,
     payload: NeedUnlockMetamask,
     dialogType: NeedUnlockMetamask.type,
+    dialogHideCloseButton: true,
   });
 };
 
@@ -47,7 +48,7 @@ export const detect = () => async (dispatch) => {
 
   return {
     installed,
-    web3: web3App,
+    web3App,
   };
 };
 
@@ -59,35 +60,40 @@ const callUnclock = (callNeedUnlock, dispatch) => {
   }
 };
 
-const checkAccounts = (web3, callNeedUnlock, dispatch, loop = false) => {
-  web3.eth.getAccounts()
+const checkAccounts = (web3App, callNeedUnlock, dispatch, loop = false) => {
+  web3App.eth.getAccounts()
     .then((r) => {
       if (!r.length > 0) {
         if (!loop) {
           callUnclock(callNeedUnlock, dispatch);
         }
-        setTimeout(() => checkAccounts(web3, callNeedUnlock, dispatch, true), 1000);
+        setTimeout(() => checkAccounts(web3App, callNeedUnlock, dispatch, true), 1000);
       } else {
         dispatch({ type: ACTIONS.METAMASK_UNLOCKED, address: r[0] });
+        dispatch({ type: APP_ACTIONS.CLOSE_DIALOG });
       }
     }).catch(() => {
-      const { accounts } = web3.eth;
+      const { accounts } = web3App.eth;
       if (!accounts.length > 0) {
         if (!loop) {
           callUnclock(callNeedUnlock, dispatch);
         }
-        setTimeout(() => checkAccounts(web3, callNeedUnlock, dispatch, true), 1000);
+        setTimeout(() => checkAccounts(web3App, callNeedUnlock, dispatch, true), 1000);
       } else {
         dispatch({ type: ACTIONS.METAMASK_UNLOCKED, address: accounts[0] });
+        dispatch({ type: APP_ACTIONS.CLOSE_DIALOG });
       }
     });
 };
 
 export const fullFlow = (callNeedUnlock = true) => async (dispatch) => {
-  const { installed, web3 } = await detect(true)(dispatch);
+  let reload = true;
+  setTimeout(() => { if (reload) window.location.reload(); }, 100);
+  const { installed, web3App } = await detect(true)(dispatch);
+  reload = false;
   if (!installed) {
     dispatch(needInstall(() => { window.location.reload(); }));
   } else {
-    checkAccounts(web3, callNeedUnlock, dispatch);
+    checkAccounts(web3App, callNeedUnlock, dispatch);
   }
 };

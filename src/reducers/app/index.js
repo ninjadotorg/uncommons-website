@@ -7,6 +7,7 @@ export default (state = {
   dialogContent: '',
   closeDialogFn: () => { },
   buttonDialogFn: () => { },
+  dialogHideCloseButton: false,
 }, action) => {
   Log.Info('Redux action', action);
   switch (action.type) {
@@ -19,6 +20,7 @@ export default (state = {
           buttonDialogFn: action.buttonDialogFn || function buttonDialogFn() { },
           closeDialogFn: action.closeDialogFn || function closeDialogFn() { },
           dialogTitle: action.title || '',
+          dialogHideCloseButton: action.dialogHideCloseButton || false,
         };
       }
       return state;

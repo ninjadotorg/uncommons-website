@@ -8,7 +8,6 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import { push } from 'connected-react-router';
 import cn from '@sindresorhus/class-names';
-import styles from './Header-styles';
 import HeaderDialog from './LoginDialog';
 
 class Header extends React.Component {
@@ -57,7 +56,7 @@ class Header extends React.Component {
         />
         <div className="uk-container">
           <div className="row">
-            <div className={classes.logoContainer}>
+            <div className={cn(classes.logoContainer, 'logo-container')}>
               <Link to="/">Uncommons</Link>
             </div>
             <div className={classes.searchBar}>
@@ -67,7 +66,7 @@ class Header extends React.Component {
                   <SearchIcon />
                 </div>
                 <Input
-                  placeholder="Search anything here..."
+                  placeholder="Search..."
                   disableUnderline
                   classes={{
                     root: classes.inputRoot,
@@ -104,6 +103,68 @@ class Header extends React.Component {
     );
   }
 }
+
+const styles = theme => ({
+  root: {
+
+  },
+  logoContainer: {
+    textTransform: 'uppercase',
+    letterSpacing: '3.1px',
+    fontSize: '18px',
+    fontWeight: '300',
+    padding: '0 30px 0 0',
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  search: {
+    position: 'relative',
+    borderRadius: 0, // theme.shape.borderRadius,
+    backgroundColor: '#FAFAFA',
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing.unit,
+      width: 'auto',
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing.unit * 9,
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+    width: '100%',
+  },
+  inputInput: {
+    paddingTop: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 10,
+    transition: theme.transitions.create('width'),
+    width: 120,
+    [theme.breakpoints.up('lg')]: {
+      '&:focus': {
+        width: 200,
+      },
+    },
+  },
+  menuBar: {
+    float: 'right',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+});
 
 export default connect(
   state => ({ auth: state.auth }), dispatch => ({ dispatch }),

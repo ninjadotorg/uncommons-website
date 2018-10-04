@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 // import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -16,7 +16,7 @@ const styles = {
 
 class RootDialog extends React.Component {
   static propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     content: PropTypes.any.isRequired,
     closeText: PropTypes.string,
     onClose: PropTypes.func,
@@ -26,6 +26,7 @@ class RootDialog extends React.Component {
   static defaultProps = {
     closeText: 'OK',
     onClose: () => { },
+    title: '',
   }
 
   constructor(props) {
@@ -42,17 +43,24 @@ class RootDialog extends React.Component {
 
   render() {
     const {
-      title, content: Content, closeText, appCloseDialog, ...other
+      title, content: Content, closeText, appCloseDialog, app, ...other
     } = this.props;
     return (
       <Dialog aria-labelledby="login-dialog-title" {...other}>
-        <DialogTitle id="login-dialog-title">{title}</DialogTitle>
-        {typeof Content === 'function' ? <Content /> : Content}
-        <DialogActions>
-          <Button onClick={this.handleClose} color="primary" autoFocus>
-            {closeText}
-          </Button>
-        </DialogActions>
+        {title ? <DialogTitle id="login-dialog-title">{title}</DialogTitle> : ''}
+        {typeof Content === 'function' ? <Content /> : <DialogContentText>Content</DialogContentText>}
+        {
+          !app.dialogHideCloseButton
+            ? (
+              <DialogActions>
+                <Button onClick={this.handleClose} color="primary" autoFocus>
+                  {closeText}
+                </Button>
+              </DialogActions>
+            )
+            : ''
+        }
+
       </Dialog>
     );
   }

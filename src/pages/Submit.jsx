@@ -7,6 +7,12 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import {
+  formatDate,
+  parseDate,
+} from 'react-day-picker/moment';
+import { fullFlow } from '@/reducers/metamask/action';
 
 class Submit extends React.Component {
   static propTypes = {
@@ -17,6 +23,8 @@ class Submit extends React.Component {
     super(props);
     this.state = {};
     document.title = 'Submit proposal - Uncommons blockchain';
+    const { fullFlowMetamask } = this.props;
+    fullFlowMetamask(true);
   }
 
 
@@ -45,26 +53,26 @@ class Submit extends React.Component {
                     <legend className="uk-legend">1. ABOUT YOUR DAPP</legend>
                     <div className="uk-margin">
                       <label htmlFor="dapp-name">
-                        <span>Name of Dapp</span>
-                        <input className="uk-input" type="text" placeholder="Prediction *" id="dapp-name" />
+                        <span>Name of Dapp *</span>
+                        <input className="uk-input" type="text" placeholder="Prediction" id="dapp-name" />
                       </label>
                     </div>
                     <div className="uk-margin">
                       <label htmlFor="description">
-                        <span>WHAT YOUR DAPP DOES?</span>
-                        <textarea className="uk-textarea" rows="5" placeholder="Tell us in 100 characters *" id="description" />
+                        <span>WHAT YOUR DAPP DOES? *</span>
+                        <textarea className="uk-textarea" rows="5" placeholder="Tell us in 100 characters" id="description" />
                       </label>
                     </div>
                     <div className="uk-margin">
                       <label htmlFor="why-we-will-love">
-                        <span>WHY WE’LL LOVE YOUR DAPP?</span>
-                        <textarea className="uk-textarea" rows="5" placeholder="Try to impress us *" id="why-we-will-love" />
+                        <span>WHY WE’LL LOVE YOUR DAPP? *</span>
+                        <textarea className="uk-textarea" rows="5" placeholder="Try to impress us" id="why-we-will-love" />
                       </label>
                     </div>
                     <div className="uk-margin">
                       <label htmlFor="why-you-want-build">
-                        <span>WHY YOU WANT TO BUILD IT?</span>
-                        <textarea className="uk-textarea" rows="5" placeholder="Tell us the story behind *" id="why-you-want-build" />
+                        <span>WHY YOU WANT TO BUILD IT? *</span>
+                        <textarea className="uk-textarea" rows="5" placeholder="Tell us the story behind" id="why-you-want-build" />
                       </label>
                     </div>
                     <div className="uk-margin">
@@ -84,23 +92,34 @@ class Submit extends React.Component {
                     <legend className="uk-legend">2. SHIPPING DATE</legend>
                     <div className="uk-margin">
                       <Grid container spacing={24}>
-                        <Grid item xs={3}>
-                          <label htmlFor="ship-date">
-                            <span>SHIP DATE</span>
-                            <input className="uk-input" type="text" placeholder="09/12/2018" id="ship-date" />
+                        <Grid item xs={12} md={3}>
+                          <label>
+                            <span>SHIP DATE *</span>
+                            <DayPickerInput
+                              component={props => <input className="uk-input" {...props} />}
+                              formatDate={formatDate}
+                              parseDate={parseDate}
+                              placeholder={`${formatDate(new Date())}`}
+                              id="ship-date"
+                            />
                           </label>
                         </Grid>
-                        <Grid item xs={9}>
+                        <Grid item xs={12} md={9}>
                           <label htmlFor="amount">
-                            <span>HOW MUCH WEEKLY GIFT YOU REQUIRE FOR DEVELOPMENT AND USERS?</span>
-                            <input className="uk-input" type="text" placeholder="" id="amount" />
+                            <span>
+                              HOW MUCH WEEKLY GIFT YOU REQUIRE FOR DEVELOPMENT AND USERS? *
+                            </span>
+                            <div className="uk-inline" style={{ width: '100%' }}>
+                              <span className="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock" />
+                              <input className="uk-input" type="text" id="amount" />
+                            </div>
                           </label>
                         </Grid>
                       </Grid>
                     </div>
                     <div className="uk-margin">
                       <label htmlFor="builder-introduce">
-                        <span>INTRODUCE YOUR TEAM WITH AN AMUSING ANECODE</span>
+                        <span>INTRODUCE YOUR TEAM WITH AN AMUSING ANECODE *</span>
                         <input className="uk-input" type="text" placeholder="" id="builder-introduce" />
                       </label>
                     </div>
@@ -109,15 +128,15 @@ class Submit extends React.Component {
                     <legend className="uk-legend">3. BUILDER INFO</legend>
                     <div className="uk-margin">
                       <label htmlFor="builder-name">
-                        <span>Name of Builder</span>
-                        <input className="uk-input" type="text" placeholder="Input" id="builder-name" />
+                        <span>Name of Builder *</span>
+                        <input className="uk-input" type="text" placeholder="What's your name?" id="builder-name" />
                       </label>
                     </div>
                     <div className="uk-margin">
                       <label htmlFor="builder-prev">
                         <span>YOUR FAVORITE THINGS YOU’VE BUILT</span>
                         <span className="sub">(Please include links if available)</span>
-                        <input className="uk-input" type="text" placeholder="Input" id="builder-prev" />
+                        <input className="uk-input" type="text" placeholder="" id="builder-prev" />
                       </label>
                     </div>
                   </fieldset>
@@ -146,4 +165,6 @@ const styles = () => { };
 
 export default connect(state => ({
   auth: state.auth,
-}), null)(withStyles(styles)(Submit));
+}), ({
+  fullFlowMetamask: fullFlow,
+}))(withStyles(styles)(Submit));

@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
-class Download extends React.Component {
+class NotFound extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -14,7 +14,7 @@ class Download extends React.Component {
           <Grid container spacing={24}>
             <Grid item xs={12} sm={6}>
               <div>
-                Download page
+                404
               </div>
             </Grid>
           </Grid>
@@ -24,4 +24,4 @@ class Download extends React.Component {
   }
 }
 
-export default Download;
+export default NotFound;

@@ -12,6 +12,7 @@ import store from '@/store';
 import history from '@/store/history';
 
 import '@/styles/main.scss';
+import 'react-day-picker/lib/style.css';
 
 class App extends React.Component {
   constructor(props) {

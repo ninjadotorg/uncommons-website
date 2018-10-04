@@ -5,3 +5,9 @@
   resize: vertical !important;
   min-height: 100px;
 }
+.uk-checkbox:checked, .uk-checkbox:indeterminate, .uk-radio:checked {
+  background-color: $blue;
+}
+.uk-checkbox:checked:focus, .uk-checkbox:indeterminate:focus, .uk-radio:checked:focus {
+  background-color: $blue;
+}

@@ -11,7 +11,7 @@ class Footer extends React.PureComponent {
     return (
       <footer className="footer">
         <div className="uk-container">
-          <Grid container spacing={24}>
+          <Grid container spacing={24} style={{ marginBottom: 0 }}>
             <Grid item xs={12} sm={3}>
               Uncommons
             </Grid>

@@ -7,7 +7,7 @@ class Loading extends React.Component {
   }
 
   render() {
-    return <div />;
+    return <div className="loading-page" />;
   }
 }
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-// import DialogContent from '@material-ui/core/DialogContent';
+import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
@@ -48,7 +48,17 @@ class RootDialog extends React.Component {
     return (
       <Dialog aria-labelledby="login-dialog-title" {...other}>
         {title ? <DialogTitle id="login-dialog-title">{title}</DialogTitle> : ''}
-        {typeof Content === 'function' ? <Content /> : <DialogContentText>Content</DialogContentText>}
+        {typeof Content === 'function' ? <Content /> : ''}
+        {
+          typeof Content === 'string'
+            ? (
+              <DialogContent>
+                {' '}
+                <DialogContentText>{Content}</DialogContentText>
+              </DialogContent>
+            )
+            : ''
+        }
         {
           !app.dialogHideCloseButton
             ? (
@@ -60,7 +70,6 @@ class RootDialog extends React.Component {
             )
             : ''
         }
-
       </Dialog>
     );
   }

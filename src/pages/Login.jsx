@@ -10,6 +10,8 @@ import deepOrange from '@material-ui/core/colors/deepOrange';
 import ethUtil from 'ethereumjs-util';
 import sigUtil from 'eth-sig-util';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { showDialog, internalAPI } from '@/reducers/app/action';
+import cryptoRandomString from 'crypto-random-string';
 
 const styles = theme => ({
   buttonMetamask: {
@@ -30,6 +32,8 @@ class Login extends React.Component {
     authLogin: PropTypes.func.isRequired,
     authLogging: PropTypes.func.isRequired,
     authLogged: PropTypes.func.isRequired,
+    appShowDialog: PropTypes.func.isRequired,
+    appInternalAPI: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -46,11 +50,17 @@ class Login extends React.Component {
       authLogin,
       authLogging,
       authLogged,
+      appShowDialog,
+      appInternalAPI,
     } = this.props;
     authLogging();
     fullFlowMetamask(true);
     if (metamask.unlocked) {
-      const msg = ethUtil.bufferToHex(Buffer.from('Click sign below to authenticate with Uncommons.', 'utf8'));
+      const msg = ethUtil.bufferToHex(Buffer.from(
+        `${'Click sign below to authenticate with Uncommons.'}
+        ${'Random string for sercurity:'} ${cryptoRandomString(7)}`,
+        'utf8',
+      ));
 
       const from = metamask.address;
 
@@ -60,14 +70,13 @@ class Login extends React.Component {
         from,
       }, (err, result) => {
         authLogged();
-        // handle error
         if (err) {
+          appShowDialog(err.toString());
           return;
-          // TO-DO
         }
         if (result.error) {
+          appShowDialog(result.error.message.toString());
           return;
-          // TO-DO
         }
 
         const msgParams = { data: msg };
@@ -75,10 +84,25 @@ class Login extends React.Component {
         const recovered = sigUtil.recoverPersonalSignature(msgParams);
 
         if (metamask.web3.utils.toChecksumAddress(recovered) === from) {
-          // TO-DO
+          appInternalAPI({
+            path: '/user/sign-up',
+            method: 'POST',
+            data: {
+              uncommons_address: from,
+              uncommons_signed_hash: result.result,
+              uncommons_text: msg,
+            },
+            successFn: (res) => {
+              authLogin(from, res ?.data ?.passpharse || '');
+            },
+            errorFn: () => {
+              appShowDialog('Have something wrong!');
+            },
+          });
           authLogin(from, '');
+        } else {
+          appShowDialog('Have something wrong!');
         }
-        // TO-DO
       });
       return true;
     } else { // eslint-disable-line
@@ -111,7 +135,14 @@ class Login extends React.Component {
                   </Button>
                   {
                     auth.isLogging
-                      ? <div>Taking a while? Check MetaMask and click Sign</div>
+                      ? (
+                        <div style={{
+                          margin: '10px 0',
+                        }}
+                        >
+                          Taking a while? Check MetaMask and click Sign
+                        </div>
+                      )
                       : ''
                   }
                 </div>
@@ -135,4 +166,6 @@ export default connect(state => ({
   authLogin: login,
   authLogging: logging,
   authLogged: logged,
+  appShowDialog: showDialog,
+  appInternalAPI: internalAPI,
 }))(withStyles(styles)(Login));

@@ -61,8 +61,11 @@ const callUnclock = (callNeedUnlock, dispatch) => {
 };
 
 const checkAccounts = (web3App, callNeedUnlock, dispatch, loop = false) => {
+  let reload = true;
+  setTimeout(() => { if (reload) window.location.reload(); }, 1000);
   web3App.eth.getAccounts()
     .then((r) => {
+      reload = false;
       if (!r.length > 0) {
         if (!loop) {
           callUnclock(callNeedUnlock, dispatch);
@@ -73,6 +76,7 @@ const checkAccounts = (web3App, callNeedUnlock, dispatch, loop = false) => {
         dispatch({ type: APP_ACTIONS.CLOSE_DIALOG });
       }
     }).catch(() => {
+      reload = false;
       const { accounts } = web3App.eth;
       if (!accounts.length > 0) {
         if (!loop) {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Router from '@/components/Router';
 import RootDialog from '@/components/Dialog/Dialog';
+import { withRouter } from 'react-router-dom';
 
 class Root extends React.Component {
   static propTypes = {
@@ -30,4 +31,4 @@ class Root extends React.Component {
   }
 }
 
-export default connect(state => ({ app: state.app, router: state.router }))(Root);
+export default withRouter(connect(state => ({ app: state.app }))(Root));

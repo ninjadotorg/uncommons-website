@@ -8,52 +8,40 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import { push } from 'connected-react-router';
 import cn from '@sindresorhus/class-names';
-import HeaderDialog from './LoginDialog';
+import { showDialog } from '@/reducers/app/action';
 
 class Header extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+    appShowDialog: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
-    this.state = {
-      openDialog: false,
-      dialogTitle: '',
-      dialogContent: '',
-    };
-  }
-
-  clickHeaderSubmit = () => {
-    const { auth, dispatch } = this.props;
-    if (auth.isLogged) {
-      dispatch(push('/submit'));
-    } else {
-      this.setState({ openDialog: true, dialogTitle: 'Auth', dialogContent: 'You must login before submit a proposal' });
-    }
+    this.state = {};
   }
 
   closeDialog = () => {
     const { dispatch } = this.props;
-    this.setState({ openDialog: false });
     dispatch(push('/login'));
+  }
+
+  clickHeaderSubmit = () => {
+    const { auth, dispatch, appShowDialog } = this.props;
+    if (auth.isLogged) {
+      dispatch(push('/submit'));
+    } else {
+      dispatch(appShowDialog('You must login before submit a proposal', this.closeDialog));
+    }
   }
 
   render() {
     const { classes, auth } = this.props;
-    const {
-      openDialog, dialogTitle, dialogContent,
-    } = this.state;
+
     return (
       <header className="header">
-        <HeaderDialog
-          open={openDialog}
-          title={dialogTitle}
-          content={dialogContent}
-          onClose={this.closeDialog}
-        />
         <div className="uk-container">
           <div className="row">
             <div className={cn(classes.logoContainer, 'logo-container')}>
@@ -167,5 +155,6 @@ const styles = theme => ({
 });
 
 export default connect(
-  state => ({ auth: state.auth }), dispatch => ({ dispatch }),
+  state => ({ auth: state.auth }),
+  dispatch => ({ appShowDialog: showDialog, dispatch }),
 )(withStyles(styles)(Header));

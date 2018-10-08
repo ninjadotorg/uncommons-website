@@ -1,3 +1,6 @@
+.uk-input, .uk-textarea {
+  border-radius: 5px;
+}
 .uk-input:hover, .uk-textarea:hover, .uk-input:focus, .uk-textarea:focus {
   border-color: $blue;
 }
@@ -10,4 +13,12 @@
 }
 .uk-checkbox:checked:focus, .uk-checkbox:indeterminate:focus, .uk-radio:checked:focus {
   background-color: $blue;
+}
+.uk-error {
+  display: block;
+  height: 15px;
+  line-height: 15px;
+  color: $red;
+  padding: 5px 0;
+  font-size: 85%;
 }

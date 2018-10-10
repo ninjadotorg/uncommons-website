@@ -25,6 +25,7 @@ module.exports = function webpackConfig(env, argv = {}) {
   const development = {
     plugins: [new webpack.HotModuleReplacementPlugin()],
     devServer: {
+      host: '0.0.0.0',
       watchContentBase: true,
       stats,
       publicPath: '/',

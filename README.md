@@ -10,6 +10,8 @@
 yarn
 ```
 
+create `.env.js` file with by copy file `.env.example.js`
+
 ### Start
 
 ```

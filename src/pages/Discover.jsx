@@ -14,22 +14,22 @@ class Discover extends React.Component {
           author: '0x123',
         },
         {
-          id: 1,
+          id: 2,
           name: 'a',
           author: '0x123',
         },
         {
-          id: 1,
+          id: 3,
           name: 'a',
           author: '0x123',
         },
         {
-          id: 1,
+          id: 4,
           name: 'a',
           author: '0x123',
         },
         {
-          id: 1,
+          id: 5,
           name: 'a',
           author: '0x123',
         },
@@ -51,7 +51,7 @@ class Discover extends React.Component {
                 <Grid container spacing={24} className="discover-page-content">
                   {items.map(
                     item => (
-                      <Grid item xs={12} sm={6} md={3}>
+                      <Grid key={item.id} item xs={12} sm={6} md={3}>
                         <Link to={`/proposal/${item.id}`}>
                           <div className="discover-item">
                             <div className="discover-item-cover" />

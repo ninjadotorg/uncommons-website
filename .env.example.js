@@ -1,3 +1,3 @@
 module.exports = {
-  internalAPI: 'http://localhost:3000',
+  internalAPI: 'http://localhost:8000',
 };

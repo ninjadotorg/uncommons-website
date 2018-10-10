@@ -5,20 +5,42 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { logout } from '@/reducers/auth/action';
 import Divider from '@material-ui/core/Divider';
+import Web3 from 'web3';
+import { push } from 'connected-react-router';
 
 class Profile extends React.Component {
   static propTypes = {
     logout: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
   }
 
   constructor(props) {
     super(props);
-    this.state = {};
+
+    const {
+      match, dispatch,
+    } = this.props;
+
+    const { address } = match.params;
+
+    this.state = {
+      address,
+    };
+
+    if (!Web3.utils.isAddress(address)) {
+      dispatch(push('/'));
+    }
   }
 
   render() {
-    const { logout: propsLogout, auth } = this.props;
+    const {
+      logout: propsLogout, auth,
+    } = this.props;
+    const {
+      address,
+    } = this.state;
     return (
       <div className="uk-container">
         <div className="profile-page">
@@ -64,7 +86,7 @@ class Profile extends React.Component {
               <div className="profile-content">
                 <Grid container spacing={24}>
                   <Grid item xs={12} md={9}>
-                    <div>Address: </div>
+                    <div>{`Address: ${address}`}</div>
                   </Grid>
                   <Grid item xs={12} md={3}>
                     {
@@ -105,5 +127,5 @@ class Profile extends React.Component {
 }
 
 export default connect(
-  state => ({ auth: state.auth }), ({ logout }),
+  state => ({ auth: state.auth }), dispatch => ({ logout: () => logout()(dispatch), dispatch }),
 )(Profile);

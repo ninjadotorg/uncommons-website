@@ -13,6 +13,7 @@ import {
   parseDate,
 } from 'react-day-picker/moment';
 import { fullFlow } from '@/reducers/metamask/action';
+import { submitDapp } from '@/reducers/dapp/action';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
@@ -47,6 +48,7 @@ const ProposalSchema = Yup.object().shape({
 class Submit extends React.Component {
   static propTypes = {
     fullFlowMetamask: PropTypes.func.isRequired,
+    dappSubmitDapp: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -58,7 +60,8 @@ class Submit extends React.Component {
   }
 
   submit = (values) => {
-    console.log(values);
+    const { dappSubmitDapp } = this.props;
+    dappSubmitDapp(values);
   }
 
   render() {
@@ -85,11 +88,14 @@ class Submit extends React.Component {
                     builderPrev: '',
                     dappName: '',
                     description: '',
+                    github: '',
+                    howFar: '',
                     policy: false,
+                    shipDate: '',
+                    twitter: '',
+                    whatCool: '',
                     whyWeWillLove: '',
                     whyYouWantBuild: '',
-                    github: '',
-                    twitter: '',
                   }}
                   validationSchema={ProposalSchema}
                   onSubmit={this.submit}
@@ -271,4 +277,5 @@ export default connect(state => ({
   auth: state.auth,
 }), ({
   fullFlowMetamask: fullFlow,
+  dappSubmitDapp: submitDapp,
 }))(withStyles(styles)(Submit));

@@ -14,3 +14,16 @@ class ComponentName extends React.Component {
 
 export default ComponentName;
 ```
+
+```js
+import { ACTIONS } from './action';
+
+export default (state = {
+}, action) => {
+  switch (action.type) {
+    default: {
+      return state;
+    }
+  }
+};
+```

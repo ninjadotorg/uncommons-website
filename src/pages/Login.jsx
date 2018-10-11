@@ -90,7 +90,7 @@ class Login extends React.Component {
             data: {
               uncommons_address: from,
               uncommons_signed_hash: result.result,
-              uncommons_text: msg,
+              uncommons_text: msg.substr(2),
             },
             successFn: (res) => {
               authLogin(from, res ?.data ?.passpharse || '');
